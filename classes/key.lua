@@ -19,7 +19,7 @@ function KeyClass.new(keyData: TKey): TKey
 end
 
 function KeyClass:verifyHWID(): string
-	if self.data.hwid == utils.getHWID() then
+	if self.data.hwid == utils:getHWID() then
 			return true
 	end
 	return false

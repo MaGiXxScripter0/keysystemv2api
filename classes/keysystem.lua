@@ -26,7 +26,7 @@ function KeySystemClass.new(name: string): TKeySystemClass
 end
 
 function KeySystemClass:getKeyURL(): string
-	return data.url_root .. "/getkey" .. self.name .. "?hwid=" .. utils.getHWID()
+	return data.url_root .. "/getkey" .. self.name .. "?hwid=" .. utils:getHWID()
 end
 
 function KeySystemClass:copyGetKeyURL()
@@ -39,7 +39,7 @@ function KeySystemClass:copyGetKeyURL()
 end
 
 function KeySystemClass:urlKeyData(): string
-	return data.api_url .. "/api/key/me?name=" .. self.name .. "?hwid=" .. utils.getHWID()
+	return data.api_url .. "/api/key/me?name=" .. self.name .. "?hwid=" .. utils:getHWID()
 end
 
 function KeySystemClass:keyData()

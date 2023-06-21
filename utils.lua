@@ -1,7 +1,8 @@
 local Utils = {}
 
 function Utils.getHWID()
-	return string.gsub(game:GetService("RbxAnalyticsService"):GetClientId(), "-", "")
+	local hwid = string.gsub(game:GetService("RbxAnalyticsService"):GetClientId(), "-", "")
+	return hwid
 end
 
 return Utils
