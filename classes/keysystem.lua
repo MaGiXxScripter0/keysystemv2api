@@ -44,7 +44,7 @@ function KeySystemClass:copyGetKeyURL()
 end
 
 function KeySystemClass:urlKeyData(): string
-	return data.api_url .. "/api/key/me?name=" .. self.name .. "?hwid=" .. utils:getHWID()
+	return data.api_url .. "/api/key/me?name=" .. self.name .. "&hwid=" .. utils:getHWID()
 end
 
 function KeySystemClass:keyData()
