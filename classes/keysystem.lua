@@ -1,4 +1,4 @@
-
+local data = loadstring()
 
 local KeySystem = {}
 KeySystem.__index = KeySystem
