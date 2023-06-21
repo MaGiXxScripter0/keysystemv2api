@@ -2,9 +2,6 @@
 
 <img alt="Discord" src="https://img.shields.io/discord/1036258822811045931?label=Discord%20Server">
 <img alt="GitHub last commit (branch)" src="https://img.shields.io/github/last-commit/MaGiXxScripter0/keysystemv2api/master">
-<img alt="GitHub Release Date - Published_At" src="https://img.shields.io/github/release-date/MaGiXxScripter0/keysystemv2api">
-
----
 
 ### [**Discord Server**](https://discord.gg/9G46pAJFfR)
 
