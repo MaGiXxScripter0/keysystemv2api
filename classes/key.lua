@@ -1,4 +1,8 @@
-local utils = _G.KSS.utils
+local utils
+
+_G.KSS.OnStart.Event:Connect(function()
+	utils = _G.KSS.utils
+end)
 
 local KeyClass = {}
 KeyClass.__index = KeyClass
