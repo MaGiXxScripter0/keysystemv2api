@@ -42,8 +42,8 @@ function KeySystemClass:urlKeyData(): string
 	return data.api_url .. "/api/key/me?name=" .. self.name .. "?hwid=" .. utils.getHWID()
 end
 
-function KeySystemClass:keyData():
-	return_G.KSS.JSONParse(self:urlKeyData()) 
+function KeySystemClass:keyData()
+	return _G.KSS.JSONParse(self:urlKeyData()) 
 end
 
 function KeySystemClass:key()
