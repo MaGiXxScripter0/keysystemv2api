@@ -1,5 +1,6 @@
 {
 	"api_url": "https://api.key.rblxscripts.fun/api",
 	"url_root": "https://kys.rblxscripts.fun",
-	"url_github": "https://raw.githubusercontent.com/MaGiXxScripter0/keysystemv2api/master/"
+	"url_github": "https://raw.githubusercontent.com/MaGiXxScripter0/keysystemv2api/master/",
+	"version": "0.1"
 }
