@@ -33,8 +33,11 @@ _G.KSS.LuaParse = function(path: string)
 end
 
 _G.KSS.registerStorage = registerStorage
+_G.KSS.OnStart = Instance.new("BindableEvent")
 
 registerStorage("/data.json")
 registerStorage("/classes/init.lua")
 registerStorage("/utils.lua")
 registerStorage("/version.json")
+
+_G.KSS.OnStart:Fire(true)

@@ -1,5 +1,10 @@
-local data = _G.KSS.data
-local utils = _G.KSS.utils
+local data, utils
+
+_G.KSS.OnStart.Event:Connect(function()
+	data = _G.KSS.data
+	utils = _G.KSS.utils
+end)
+
 
 local KeySystemClass = {}
 KeySystemClass.__index = KeySystemClass
