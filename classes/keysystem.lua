@@ -22,6 +22,20 @@ type TKey = {
   last_visit: number
 }
 
+type TApplication = {
+  name: string,
+  created_at: string,
+  website_settings: {
+    title: string,
+    description: string,
+    image: string,
+    icon: string,
+    color: string,
+    widget_id: string,
+    analytics_google_code: string
+  },
+  checkpoints: number,
+}
 
 function KeySystemClass.new(name: string): TKeySystemClass
 	local self: TKeySystemClass = setmetatable({}, KeySystemClass)
@@ -49,6 +63,10 @@ end
 
 function KeySystemClass:keyData()
 	return _G.KSS.JSONParse(self:urlKeyData()) 
+end
+
+function KeySystemClass:applicationData()
+	return _G.KSS.JSONParse(data.api_url .. "/application/get?name=wheathub")
 end
 
 function KeySystemClass:key()
