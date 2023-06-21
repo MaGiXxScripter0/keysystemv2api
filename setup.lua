@@ -36,5 +36,5 @@ _G.KSS.registerStorage = registerStorage
 
 registerStorage("/data.json")
 registerStorage("/classes/init.lua")
-registerStorage("/utils/utils.lua")
+registerStorage("/utils.lua")
 registerStorage("/version.json")
