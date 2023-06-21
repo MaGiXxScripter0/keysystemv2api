@@ -1,0 +1,1 @@
+_G.KSS.registerStorage("/classes/keysystem.lua")

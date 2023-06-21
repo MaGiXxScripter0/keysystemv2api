@@ -1,8 +1,8 @@
 local HttpService = game:GetService("HttpService")
-local urlGithub = "https://raw.githubusercontent.com/MaGiXxScripter0/keysystemv2api/master"
+local urlGitHub = "https://raw.githubusercontent.com/MaGiXxScripter0/keysystemv2api/master"
 
-_G.KeySystemStorage = {}
-local storage = _G.KeySystemStorage
+_G.KSS = {}
+local storage = _G.KSS
 
 function registerStorage(path: string)
 	local paths = string.split(path, "/")
@@ -13,20 +13,28 @@ function registerStorage(path: string)
 		if path_split == "" then continue end
 		local name = string.split(path_split, ".")[1]
 		oldStorage[name] = oldStorage[name] or {}
-		oldStorage = oldStorage[name]
 		if path_split == endFile then
 			if endFileType == 'json' then
-				local data = HttpService:JSONDecode(game:HttpGet(urlGithub .. path))
-				oldStorage = data
+				oldStorage[name] = _G.KSS.JSONParse(urlGitHub .. path)
 			elseif endFileType == 'lua' then
-				local soure = loadstring(game:HttpGet(urlGithub .. path))()
-				oldStorage = soure
+				oldStorage[name] = _G.KSS.LuaParse(urlGitHub .. path)
 			end
 		end
+		oldStorage = oldStorage[name]
 	end
 end
 
+_G.KSS.JSONParse = function(path: string)
+	return HttpService:JSONDecode(game:HttpGet(path))
+end
+
+_G.KSS.LuaParse = function(path: string)
+	return loadstring(game:HttpGet(path))()
+end
+
+_G.KSS.registerStorage = registerStorage
+
 registerStorage("/data.json")
+registerStorage("/classes/init.lua")
 registerStorage("/utils/utils.lua")
-registerStorage("/classes/keysystem.lua")
 registerStorage("/version.json")
