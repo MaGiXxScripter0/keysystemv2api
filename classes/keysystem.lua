@@ -66,7 +66,7 @@ function KeySystemClass:keyData()
 end
 
 function KeySystemClass:applicationData()
-	return _G.KSS.JSONParse(data.api_url .. "/application/get?name=wheathub")
+	return _G.KSS.JSONParse(data.api_url .. "/application/get?name="..self.name)
 end
 
 function KeySystemClass:key()
