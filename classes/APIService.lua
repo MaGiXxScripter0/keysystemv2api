@@ -19,7 +19,9 @@ local APIService = {} do
     end
 
     function APIService:premiumKeyData(name: string, key: string)
-		return _G.KSS.JSONParse(self:urlPremiumKeyData(name, key)) 
+		local data = _G.KSS.JSONParse(self:urlPremiumKeyData(name, key)) 
+        assert(not data.detail, "Key not found")
+        return data
 	end
 
     function APIService:keyData(name: string)
