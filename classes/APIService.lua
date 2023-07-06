@@ -11,7 +11,7 @@ local APIService = {} do
 	end
 
     function APIService:urlPremiumKeyData(name: string, key: string): string
-		return data.api_url .. "premium_key/me?name=" .. name .. "&key=" .. key .. "&hwid=" .. utils:getHWID()
+		return data.api_url .. "/premium_key/me?name=" .. name .. "&key=" .. key .. "&hwid=" .. utils:getHWID()
 	end
 
     function APIService:getKeyURL(name: string): string
