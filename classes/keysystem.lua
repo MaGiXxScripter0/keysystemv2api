@@ -58,7 +58,7 @@ local KeySystemClass = {} do
 	end
 
 	function KeySystemClass:premiumKey(key: string): TKey
-		return _G.KSS.classes.key.new(APIService:keyPremiumData(self.name, key))
+		return _G.KSS.classes.key.new(APIService:premiumKeyData(self.name, key))
 	end
 end
 
