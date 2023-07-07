@@ -48,4 +48,4 @@ local PremiumKeyClass = {} do
     end
 end
 
-return KeyClass
+return PremiumKeyClass
