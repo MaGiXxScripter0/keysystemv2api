@@ -35,6 +35,8 @@ end
 _G.KSS.registerStorage = registerStorage
 _G.KSS.OnStart = Instance.new("BindableEvent")
 
+getgenv().setclipboard = setclipboard or toclipboard or set_clipboard or (Clipboard and Clipboard.set)
+
 registerStorage("/data.json")
 registerStorage("/classes/init.lua")
 registerStorage("/utils.lua")
