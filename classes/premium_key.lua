@@ -16,7 +16,7 @@ type TPremiumKey = {
 }
 
 local PremiumKeyClass = {} do
-    PremiumKeyClass.__index = KeyClass
+    PremiumKeyClass.__index = PremiumKeyClass
 
     function PremiumKeyClass.new(keyData: TPremiumKey)
         local self = setmetatable({}, PremiumKeyClass)
