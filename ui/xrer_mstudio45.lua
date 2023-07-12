@@ -14,7 +14,7 @@
             print("Key verified, can load script")
 --]]
 
-local KeySystemUI = { Finished = false }
+local KeySystemUI = {}
 local UIMade = false
 
 local CoreGUI = game:GetService("CoreGui")
