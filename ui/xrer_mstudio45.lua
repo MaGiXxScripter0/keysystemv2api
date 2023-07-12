@@ -3,21 +3,25 @@
 			UI by mr.xrer | Code by mstudio45
 
     Script Example:
-            local KeySystemUI = loadstring(game:HttpGet("KeySystemUI loadstring link"))()
+            local KeySystemUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/MaGiXxScripter0/keysystemv2api/master/ui/xrer_mstudio45.lua"))()
             KeySystemUI.New({
                 ApplicationName = "", -- Your Key System
                 Name = "", -- Your Script name
                 Info = "", -- Info text in the GUI, keep empty for default text.
                 DiscordInvite = "" -- Optional.
             })
-            repeat task.wait() until KeySystemUI.Finished == true
-            print("Key verified, can load script")
+            repeat task.wait() until KeySystemUI.Finished() or KeySystemUI.Closed
+            if KeySystemUI.Finished() and KeySystemUI.Closed == false then
+                print("Key verified, can load script")
+            else
+                print("Player closed the GUI.")
+            end
 --]]
 
+local KeySystemUI = { Closed = false }
+local UIMade = false;
 
-local KeySystemUI = { Finished = false }
-local UIMade = false
-
+local UserInputService = game:GetService("UserInputService")
 local CoreGUI = game:GetService("CoreGui")
 local HttpService = game:GetService("HttpService")
 local httprequest = (syn and syn.request) or (http and http.request) or http_request or (fluxus and fluxus.request) or request
@@ -25,21 +29,29 @@ local HIDEUI = get_hidden_gui or gethui
 if syn and typeof(syn) == "table" and RenderWindow then
 	syn.protect_gui = gethui;
 end
+local RemoveStringsInvite = {"discord.gg","discord.com/invite"}
 local function JoinDiscord(DiscordInvite)
     if httprequest then
-        DiscordInvite = string.gsub(DiscordInvite, "https://discord.gg/", "")
+        for _,v in pairs(RemoveStringsInvite) do
+            DiscordInvite = string.gsub(DiscordInvite, "https://", "")
+            DiscordInvite = string.gsub(DiscordInvite, "http://", "")
+            DiscordInvite = string.gsub(DiscordInvite, v.."/", "")
+            DiscordInvite = string.gsub(DiscordInvite, v, "")
+        end
         httprequest({
-            Url = 'http://127.0.0.1:6463/rpc?v=1',
-            Method = 'POST',
+            Url = "http://127.0.0.1:6463/rpc?v=1",
+            Method = "POST",
             Headers = {
-                ['Content-Type'] = 'application/json',
-                Origin = 'https://discord.com'
+                ["Content-Type"] = "application/json",
+                ["Origin"] = "https://discord.com"
             },
             Body = HttpService:JSONEncode({
-                cmd = 'INVITE_BROWSER',
-                nonce = HttpService:GenerateGUID(false),
-                args = { code = DiscordInvite }
-            })
+                cmd = "INVITE_BROWSER",
+                args = {
+                    code = DiscordInvite
+                },
+                nonce = HttpService:GenerateGUID(false)
+            }),
         })
     end
 end
@@ -64,6 +76,40 @@ local function Hide_UI(gui)
 		gui["Parent"] = CoreGUI
 	end
 end
+local function MakeDraggable(gui)
+	local dragging
+	local dragInput
+	local dragStart
+	local startPos
+	local function update(input)
+	    local delta = input.Position - dragStart
+	    gui.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+	end
+	gui.InputBegan:Connect(function(input)
+	    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+	        dragging = true
+	        dragStart = input.Position
+	        startPos = gui.Position
+	        
+	        input.Changed:Connect(function()
+	            if input.UserInputState == Enum.UserInputState.End then
+	                dragging = false
+	            end
+	        end)
+	    end
+	end)
+	gui.InputChanged:Connect(function(input)
+	    if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+	        dragInput = input
+	    end
+	end)
+	 
+	UserInputService.InputChanged:Connect(function(input)
+	    if input == dragInput and dragging then
+	        update(input)
+	    end
+end)
+end
 local function MakeUi(applicationName, name, info, discordInvite)
     if UIMade == true then return end
     UIMade = true
@@ -85,6 +131,7 @@ local function MakeUi(applicationName, name, info, discordInvite)
     canvas_group.Size = UDim2.new(0, 350, 0, 255)
     canvas_group.Visible = true
     canvas_group.Parent = key_system
+    MakeDraggable(canvas_group)
     
     local uicorner = Instance.new("UICorner")
     uicorner.CornerRadius = UDim.new(0, 5)
@@ -150,9 +197,9 @@ local function MakeUi(applicationName, name, info, discordInvite)
     local text_label_2 = Instance.new("TextLabel")
     text_label_2.Font = Enum.Font.Gotham
     if info == "" then
-        text_label_2.Text = "To use the free version of "..tostring(name).." you need a key. You can get the key in our discord server by completing all stages."
+        text_label_2.Text = "To use the free version of "..tostring(name).." you need a key. Click 'Get Key' button to get your key!"
     else
-        text_label_2.Text = info == nil and "To use the free version of "..tostring(name).." you need a key. You can get the key in our discord server by completing all stages." or tostring(info)
+        text_label_2.Text = info == nil and "To use the free version of "..tostring(name).." you need a key. Click 'Get Key' button to get your key!" or tostring(info)
     end
     text_label_2.TextColor3 = Color3.new(0.784314, 0.784314, 0.784314)
     text_label_2.TextSize = 14
@@ -231,7 +278,7 @@ local function MakeUi(applicationName, name, info, discordInvite)
     if discordInvite ~= "" then
         local discord = Instance.new("TextButton")
         discord.Font = Enum.Font.Gotham
-        discord.Text = "Join to Discord Server!"
+        discord.Text = "Join the Discord Server"
         discord.TextColor3 = Color3.new(1, 1, 1)
         discord.TextSize = 13
         discord.BackgroundColor3 = Color3.new(0, 0.588235, 0.392157)
@@ -247,7 +294,7 @@ local function MakeUi(applicationName, name, info, discordInvite)
         uicorner_6.CornerRadius = UDim.new(0, 4)
         uicorner_6.Parent = discord
 
-        discord.MouseButton1Click(function()
+        discord.MouseButton1Click:Connect(function()
             JoinDiscord(discordInvite)
         end)
     else
@@ -262,31 +309,42 @@ local function MakeUi(applicationName, name, info, discordInvite)
         UIMade = false
     end
 
-    close_btn.MouseButton1Click:Connect(CloseGUI)
+    close_btn.MouseButton1Click:Connect(function()
+        KeySystemUI.Closed = true;CloseGUI()
+    end)
 
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/MaGiXxScripter0/keysystemv2api/master/setup.lua"))()
-    local KeySystem = _G.KSS.classes.keysystem.new(applicationName)
-    local KeyClass = KeySystem:key()
+    --loadstring(game:HttpGet("https://raw.githubusercontent.com/MaGiXxScripter0/keysystemv2api/master/setup.lua"))()
+    --local KeySystem = _G.KSS.classes.keysystem.new(applicationName)
+	local KeyLibrary = loadstring(game:HttpGet('https://raw.githubusercontent.com/MaGiXxScripter0/keysystemv2api/master/setup_obf.lua'))()
+	local KeySystem = KeyLibrary.new(applicationName)
+   	local KeyClass = KeySystem:key()
+	local CurrentKeyInput = ""
     function iskeyvalid(key_input)
-        KeyClass = KeySystem:key()
-        return (KeyClass.finish and KeyClass:verifyHWID() and KeyClass:verifyKey(key_input))
+        if key_input ~= nil then
+            CurrentKeyInput = key_input
+        end
+
+		KeyClass = KeySystem:key()
+		if KeyClass.is_banned then return false end
+		return (KeyClass.finish and KeySystem:verifyKey(CurrentKeyInput))
     end
+	function KeySystemUI.Finished() return iskeyvalid() end
 
     check_key.MouseButton1Click:Connect(function()
         local keyValid = iskeyvalid(text_box.Text)
         if keyValid then
             CloseGUI()
-            KeySystemUI.Finished = true
         else
-            text_box.Text = "Invalid/Expired key!"
+			if KeyClass.is_banned then text_box.Text = "You are banned!" else text_box.Text = "Invalid/Expired key!" end
             game:GetService("TweenService"):Create(text_box, TweenInfo.new(0.2, Enum.EasingStyle.Quad), { TextColor3 = Color3.fromRGB(255, 0, 0) }):Play()
             task.wait(0.15)
             game:GetService("TweenService"):Create(text_box, TweenInfo.new(0.5, Enum.EasingStyle.Quad), { TextColor3 = Color3.new(0.784314, 0.784314, 0.784314) }):Play()
+            text_box.Text = ""
         end
     end)
 
     get_key.MouseButton1Click:Connect(function()
-        text_box.Text = (_G.KSS.classes.APIService:getKeyURL(KeySystem.name))
+        text_box.Text = KeySystem:getKeyURL()
         KeySystem:copyGetKeyURL()
     end)
 end
