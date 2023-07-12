@@ -319,10 +319,9 @@ local function MakeUi(applicationName, name, info, discordInvite)
 	local KeySystem = KeyLibrary.new(applicationName)
    	local KeyClass = KeySystem:key()
 	local CurrentKeyInput = ""
+    local SavedKeyPath = applicationName.."_key.txt"
     function iskeyvalid(key_input)
-        if key_input ~= nil then
-            CurrentKeyInput = key_input
-        end
+        if key_input ~= nil then CurrentKeyInput = key_input end
 
 		KeyClass = KeySystem:key()
 		if KeyClass.is_banned then return false end
@@ -330,9 +329,40 @@ local function MakeUi(applicationName, name, info, discordInvite)
     end
 	function KeySystemUI.Finished() return iskeyvalid() end
 
+    if readfile and writefile then
+        text_box.Text = "Checking saved key..."
+        local success_file, error_file = pcall(function()
+            local is_key_present = isfile(SavedKeyPath);
+
+            if is_key_present == true then
+                local key_file_txt = readfile(SavedKeyPath)
+                local onl_key = iskeyvalid(key_file_txt)
+                
+                if onl_key then
+                    CloseGUI()
+                else
+                    delfile(SavedKeyPath)
+                    text_box.Text = "Saved key is invalid."
+                end
+            end
+        end)
+        if error_file then
+            text_box.Text = "Failed to check saved key."
+            warn(error_file)
+        end
+        if text_box.Text ~= "Checking saved key..." then
+            task.delay(2, function()
+                text_box.Text = ""
+            end)
+        else
+            text_box.Text = ""
+        end
+    end
+
     check_key.MouseButton1Click:Connect(function()
         local keyValid = iskeyvalid(text_box.Text)
         if keyValid then
+            if writefile then writefile(SavedKeyPath, CurrentKeyInput) end
             CloseGUI()
         else
 			if KeyClass.is_banned then text_box.Text = "You are banned!" else text_box.Text = "Invalid/Expired key!" end
