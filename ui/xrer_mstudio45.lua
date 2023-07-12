@@ -10,10 +10,9 @@
                 Info = "", -- Info text in the GUI, keep empty for default text.
                 DiscordInvite = "" -- Optional.
             })
-            repeat task.wait() until KeySystemUI.Finished == true
+            repeat task.wait() until KeySystemUI.Finished()
             print("Key verified, can load script")
 --]]
-
 
 local KeySystemUI = { Finished = false }
 local UIMade = false
@@ -264,21 +263,31 @@ local function MakeUi(applicationName, name, info, discordInvite)
 
     close_btn.MouseButton1Click:Connect(CloseGUI)
 
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/MaGiXxScripter0/keysystemv2api/master/setup.lua"))()
-    local KeySystem = _G.KSS.classes.keysystem.new(applicationName)
-    local KeyClass = KeySystem:key()
+    --loadstring(game:HttpGet("https://raw.githubusercontent.com/MaGiXxScripter0/keysystemv2api/master/setup.lua"))()
+    --local KeySystem = _G.KSS.classes.keysystem.new(applicationName)
+	local KeyLibrary = loadstring(game:HttpGet('https://raw.githubusercontent.com/MaGiXxScripter0/keysystemv2api/master/setup_obf.lua'))()
+	local KeySystem = KeyLibrary.new(applicationName)
+   	local KeyClass = KeySystem:key()
+	local CurrentKeyInput = ""
     function iskeyvalid(key_input)
-        KeyClass = KeySystem:key()
-        return (KeyClass.finish and KeyClass:verifyHWID() and KeyClass:verifyKey(key_input))
+		CurrentKeyInput = key_input
+
+		KeyClass = KeySystem:key()
+		if KeyClass.is_banned then return false end
+		return KeySystem:verifyKey(CurrentKeyInput)
     end
+	function KeySystemUI.Finished()
+		KeyClass = KeySystem:key()
+		if KeyClass.is_banned then return false end
+		return KeySystem:verifyKey(CurrentKeyInput)
+	end
 
     check_key.MouseButton1Click:Connect(function()
         local keyValid = iskeyvalid(text_box.Text)
         if keyValid then
             CloseGUI()
-            KeySystemUI.Finished = true
         else
-            text_box.Text = "Invalid/Expired key!"
+			if KeyClass.is_banned then text_box.Text = "You are banned!" else text_box.Text = "Invalid/Expired key!" end
             game:GetService("TweenService"):Create(text_box, TweenInfo.new(0.2, Enum.EasingStyle.Quad), { TextColor3 = Color3.fromRGB(255, 0, 0) }):Play()
             task.wait(0.15)
             game:GetService("TweenService"):Create(text_box, TweenInfo.new(0.5, Enum.EasingStyle.Quad), { TextColor3 = Color3.new(0.784314, 0.784314, 0.784314) }):Play()
@@ -286,7 +295,7 @@ local function MakeUi(applicationName, name, info, discordInvite)
     end)
 
     get_key.MouseButton1Click:Connect(function()
-        text_box.Text = (_G.KSS.classes.APIService:getKeyURL(KeySystem.name))
+        text_box.Text = KeySystem:getKeyURL()
         KeySystem:copyGetKeyURL()
     end)
 end
