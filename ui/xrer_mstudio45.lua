@@ -325,7 +325,7 @@ local function MakeUi(applicationName, name, info, discordInvite)
 
 		KeyClass = KeySystem:key()
 		if KeyClass.is_banned then return false end
-		return (KeyClass.finish and KeySystem:verifyKey(CurrentKeyInput))
+		return KeySystem:verifyKey(CurrentKeyInput) --(KeyClass.finish and KeySystem:verifyKey(CurrentKeyInput))
     end
 	function KeySystemUI.Finished() return iskeyvalid() end
 
