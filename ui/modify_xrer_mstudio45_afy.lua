@@ -308,25 +308,20 @@ local function MakeUi(applicationName, name, info, discordInvite)
     --local KeySystem = _G.KSS.classes.keysystem.new(applicationName)
 	local KeyLibrary = loadstring(game:HttpGet('https://raw.githubusercontent.com/MaGiXxScripter0/keysystemv2api/master/setup_obf.lua'))()
 	local KeySystem = KeyLibrary.new(applicationName)
-   	local KeyClass = KeySystem:key()
-
-
 	local CurrentKeyInput = ""
     local SavedKeyPath = applicationName.."_key.txt"
+
     function iskeyvalid(key_input)
+        local KeyClass = KeySystem:key()
+        
         if key_input ~= nil then CurrentKeyInput = key_input end        
 		if KeyClass.is_banned then return false end
 		
-        if not (getHwid() == KeyClass.hwid and KeyClass.finish and KeySystem:verifyKey(CurrentKeyInput)) then
-            local KeyPremium;
-            local s,e = pcall(function()
-                KeyPremium = KeySystem:premiumKey(CurrentKeyInput)
-            end)
-            if e then return false end
-            return (getHwid() == KeyPremium.hwid and not KeyPremium.is_expired)
-        else
-            return (getHwid() == KeyClass.hwid and KeyClass.finish and KeySystem:verifyKey(CurrentKeyInput))
+        if KeySystem:verifyKey(CurrentKeyInput) then
+            return true
         end
+
+        return false
     end
 
     if readfile and writefile then
