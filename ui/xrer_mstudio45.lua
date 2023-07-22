@@ -24,13 +24,16 @@ local UIMade = false;
 local UserInputService = game:GetService("UserInputService")
 local CoreGUI = game:GetService("CoreGui")
 local HttpService = game:GetService("HttpService")
-local httprequest = (syn and syn.request) or (http and http.request) or http_request or (fluxus and fluxus.request) or request
+local httprequest = (syn and syn.request) or (http and http.request) or http_request or (fluxus and fluxus.request) or request or HttpPost
 local HIDEUI = get_hidden_gui or gethui
 if syn and typeof(syn) == "table" and RenderWindow then
 	syn.protect_gui = gethui;
 end
 local RemoveStringsInvite = {"discord.gg","discord.com/invite"}
 local function JoinDiscord(DiscordInvite)
+    if setclipboard then
+        setclipboard(DiscordInvite)
+    end
     if httprequest then
         for _,v in pairs(RemoveStringsInvite) do
             DiscordInvite = string.gsub(DiscordInvite, "https://", "")
