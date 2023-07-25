@@ -111,8 +111,173 @@ local function MakeDraggable(gui)
 	    if input == dragInput and dragging then
 	        update(input)
 	    end
-end)
+	end)
 end
+
+-- Notify Lib by mr.xrer
+local Notif = {}
+do
+	local TS = game:GetService("TweenService")
+	local screen_gui = Instance.new("ScreenGui")
+	Hide_UI(screen_gui)
+	
+	local frame = Instance.new("Frame")
+	frame.AnchorPoint = Vector2.new(0.5, 0.949999988079071)
+	frame.BackgroundColor3 = Color3.new(1, 1, 1)
+	frame.BackgroundTransparency = 1
+	frame.BorderColor3 = Color3.new(0, 0, 0)
+	frame.BorderSizePixel = 0
+	frame.Position = UDim2.new(0.5, 0, 0.954999983, 0)
+	frame.Size = UDim2.new(0, 100, 0, 100)
+	frame.Visible = true
+	frame.Parent = screen_gui
+	
+	local uilist_layout = Instance.new("UIListLayout")
+	uilist_layout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+	uilist_layout.SortOrder = Enum.SortOrder.LayoutOrder
+	uilist_layout.VerticalAlignment = Enum.VerticalAlignment.Bottom
+	uilist_layout.Parent = frame
+	
+	function Notif.New(text, timee)
+	    local frame_2 = Instance.new("Frame")
+	    frame_2.BackgroundColor3 = Color3.new(1, 1, 1)
+	    frame_2.BorderColor3 = Color3.new(0, 0, 0)
+	    frame_2.BorderSizePixel = 0
+	    frame_2.BackgroundTransparency = 1
+	    frame_2.Size = UDim2.new(0, 100, 0, 0)
+	    frame_2.Visible = true
+	    frame_2.Parent = frame
+	
+	    -- Main Notification Frame
+	    local frame_3 = Instance.new("Frame")
+	    frame_3.AnchorPoint = Vector2.new(0.5, 1)
+	    frame_3.AutomaticSize = Enum.AutomaticSize.X
+	    frame_3.BackgroundColor3 = Color3.new(0.141176, 0.141176, 0.141176)
+	    frame_3.BackgroundTransparency = 0.20000000298023224
+	    frame_3.BorderColor3 = Color3.new(0, 0, 0)
+	    frame_3.Position = UDim2.new(0.5, 0, 1, 60)
+	    frame_3.Size = UDim2.new(0, 0, 0, 30)
+	    frame_3.Visible = true
+	    frame_3.Parent = frame_2
+	
+	    local uicorner = Instance.new("UICorner")
+	    uicorner.CornerRadius = UDim.new(0, 6)
+	    uicorner.Parent = frame_3
+	
+	    local uipadding = Instance.new("UIPadding")
+	    uipadding.PaddingBottom = UDim.new(0, 3)
+	    uipadding.PaddingLeft = UDim.new(0, 3)
+	    uipadding.PaddingRight = UDim.new(0, 3)
+	    uipadding.PaddingTop = UDim.new(0, 3)
+	    uipadding.Parent = frame_3
+	
+	    local uistroke = Instance.new("UIStroke")
+	    uistroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+	    uistroke.Color = Color3.new(0.0313726, 0.0313726, 0.0313726)
+	    uistroke.Parent = frame_3
+	
+	    local text_label = Instance.new("TextLabel")
+	    text_label.Font = Enum.Font.Gotham
+	    text_label.Text = text
+	    text_label.TextColor3 = Color3.new(0.784314, 0.784314, 0.784314)
+	    text_label.TextSize = 14
+	    text_label.AutomaticSize = Enum.AutomaticSize.X
+	    text_label.BackgroundColor3 = Color3.new(1, 1, 1)
+	    text_label.BackgroundTransparency = 1
+	    text_label.BorderColor3 = Color3.new(0, 0, 0)
+	    text_label.BorderSizePixel = 0
+	    text_label.Size = UDim2.new(0, 0, 0, 24)
+	    text_label.Visible = true
+	    text_label.Parent = frame_3
+	
+	    local uipadding_2 = Instance.new("UIPadding")
+	    uipadding_2.PaddingLeft = UDim.new(0, 5)
+	    uipadding_2.PaddingRight = UDim.new(0, 30)
+	    uipadding_2.Parent = text_label
+	
+	    local text_button = Instance.new("TextButton")
+	    text_button.Font = Enum.Font.SourceSans
+	    text_button.Text = ""
+	    text_button.TextColor3 = Color3.new(0, 0, 0)
+	    text_button.TextSize = 14
+	    text_button.AnchorPoint = Vector2.new(1, 0.5)
+	    text_button.BackgroundColor3 = Color3.new(0, 0, 0)
+	    text_button.BackgroundTransparency = 1
+	    text_button.BorderColor3 = Color3.new(0, 0, 0)
+	    text_button.BorderSizePixel = 0
+	    text_button.Position = UDim2.new(1, 0, 0.5, 0)
+	    text_button.Size = UDim2.new(0, 24, 0, 24)
+	    text_button.Visible = true
+	    text_button.Parent = frame_3
+	
+	    local uicorner_2 = Instance.new("UICorner")
+	    uicorner_2.CornerRadius = UDim.new(0, 5)
+	    uicorner_2.Parent = text_button
+	
+	    local image_button = Instance.new("ImageButton")
+	    image_button.Image = "rbxassetid://3926305904"
+	    image_button.ImageColor3 = Color3.new(0.784314, 0.784314, 0.784314)
+	    image_button.ImageRectOffset = Vector2.new(924, 724)
+	    image_button.ImageRectSize = Vector2.new(36, 36)
+	    image_button.AnchorPoint = Vector2.new(0.5, 0.5)
+	    image_button.BackgroundTransparency = 1
+	    image_button.LayoutOrder = 3
+	    image_button.Position = UDim2.new(0.5, 0, 0.5, 0)
+	    image_button.Size = UDim2.new(0, 18, 0, 18)
+	    image_button.Visible = true
+	    image_button.ZIndex = 2
+	    image_button.Parent = text_button
+	
+	    --Animations
+	    TS:Create(frame_3, TweenInfo.new(0.2, Enum.EasingStyle.Quint), { Position = UDim2.new(0.5, 0, 1, 0) }):Play()
+	    TS:Create(frame_2, TweenInfo.new(0.2, Enum.EasingStyle.Quint), { Size = UDim2.new(0, 100, 0, 35) }):Play()
+	
+	    -- Close Button
+	    local function close_notif()
+	        TS:Create(image_button, TweenInfo.new(0.15, Enum.EasingStyle.Quint), { ImageTransparency = 1 }):Play()
+	        task.wait(.15)
+	        TS:Create(text_button, TweenInfo.new(0.2, Enum.EasingStyle.Quint), { BackgroundTransparency = 1 }):Play()
+	        task.wait(.1)
+	        TS:Create(text_label, TweenInfo.new(0.15, Enum.EasingStyle.Quint), { TextTransparency = 1 }):Play()
+	        task.wait(.05)
+	        TS:Create(frame_3, TweenInfo.new(0.25, Enum.EasingStyle.Quint), { BackgroundTransparency = 1 }):Play()
+	        TS:Create(uistroke, TweenInfo.new(0.24, Enum.EasingStyle.Quint), { Transparency = 1 }):Play()
+	        task.wait(.05)
+	        TS:Create(frame_2, TweenInfo.new(0.2, Enum.EasingStyle.Quint), { Size = UDim2.new(0, 100, 0, 0) }):Play()
+	        task.wait(.2)
+	        frame_2:Destroy()
+	    end
+	    text_button.MouseEnter:Connect(function()
+	        TS:Create(text_button, TweenInfo.new(0.25, Enum.EasingStyle.Quint), { BackgroundTransparency = 0.8 }):Play()
+	        TS:Create(image_button, TweenInfo.new(0.3, Enum.EasingStyle.Quint),
+	            { ImageColor3 = Color3.new(0.890196, 0.054902, 0.054902) }):Play()
+	    end)
+	
+	    text_button.MouseLeave:Connect(function()
+	        TS:Create(text_button, TweenInfo.new(0.25, Enum.EasingStyle.Quint), { BackgroundTransparency = 1 }):Play()
+	        TS:Create(image_button, TweenInfo.new(0.3, Enum.EasingStyle.Quint),
+	            { ImageColor3 = Color3.new(0.784314, 0.784314, 0.784314) }):Play()
+	    end)
+	
+	    text_button.MouseButton1Click:Connect(function()
+	        TS:Create(image_button, TweenInfo.new(0.15, Enum.EasingStyle.Quint), { ImageTransparency = 1 }):Play()
+	        task.wait(.15)
+	        TS:Create(text_button, TweenInfo.new(0.2, Enum.EasingStyle.Quint), { BackgroundTransparency = 1 }):Play()
+	        task.wait(.1)
+	        TS:Create(text_label, TweenInfo.new(0.15, Enum.EasingStyle.Quint), { TextTransparency = 1 }):Play()
+	        task.wait(.05)
+	        TS:Create(frame_3, TweenInfo.new(0.25, Enum.EasingStyle.Quint), { BackgroundTransparency = 1 }):Play()
+	        TS:Create(uistroke, TweenInfo.new(0.24, Enum.EasingStyle.Quint), { Transparency = 1 }):Play()
+	        task.wait(.05)
+	        TS:Create(frame_2, TweenInfo.new(0.2, Enum.EasingStyle.Quint), { Size = UDim2.new(0, 100, 0, 0) }):Play()
+	        task.wait(.2)
+	        frame_2:Destroy()
+	    end)
+	    image_button.MouseButton1Click:Connect(close_notif)
+	   	task.delay(tonumber(timee) and timee or 10, close_notif)
+	end
+end
+
 local function MakeUi(applicationName, name, info, discordInvite)
     if UIMade == true then return end
     UIMade = true
@@ -131,7 +296,7 @@ local function MakeUi(applicationName, name, info, discordInvite)
     canvas_group.BorderColor3 = Color3.new(0, 0, 0)
     canvas_group.BorderSizePixel = 0
     canvas_group.Position = UDim2.new(0.5, 0, 0.5, 0)
-    canvas_group.Size = UDim2.new(0, 350, 0, 255)
+    canvas_group.Size = UDim2.new(0, 350, 0, 265)
     canvas_group.Visible = true
     canvas_group.Parent = key_system
     MakeDraggable(canvas_group)
@@ -250,7 +415,7 @@ local function MakeUi(applicationName, name, info, discordInvite)
     check_key.BackgroundColor3 = Color3.new(0.109804, 0.109804, 0.109804)
     check_key.BorderColor3 = Color3.new(0, 0, 0)
     check_key.BorderSizePixel = 0
-    check_key.Position = UDim2.new(0.034285713, 0, 0.656000018, 8)
+    check_key.Position = UDim2.new(0.034285713, 0, 0.656000018, 2)
     check_key.Size = UDim2.new(0, 160, 0, 35)
     check_key.Visible = true
     check_key.Name = "CheckKey"
@@ -268,7 +433,7 @@ local function MakeUi(applicationName, name, info, discordInvite)
     get_key.BackgroundColor3 = Color3.new(0.109804, 0.109804, 0.109804)
     get_key.BorderColor3 = Color3.new(0, 0, 0)
     get_key.BorderSizePixel = 0
-    get_key.Position = UDim2.new(0.505714238, 0, 0.656000018, 8)
+    get_key.Position = UDim2.new(0.505714238, 0, 0.656000018, 2)
     get_key.Size = UDim2.new(0, 160, 0, 35)
     get_key.Visible = true
     get_key.Name = "GetKey"
@@ -301,7 +466,10 @@ local function MakeUi(applicationName, name, info, discordInvite)
             JoinDiscord(discordInvite)
         end)
     else
-        canvas_group.Size = UDim2.new(0, 350, 0, 205)
+        canvas_group.Size = UDim2.new(0, 350, 0, 185)
+        text_box.Position = UDim2.new(text_box.Position.X.Scale, text_box.Position.X.Offset, text_box.Position.Y.Scale, 10)
+        get_key.Position = UDim2.new(get_key.Position.X.Scale, get_key.Position.X.Offset, get_key.Position.Y.Scale, 20)
+        check_key.Position = UDim2.new(check_key.Position.X.Scale, check_key.Position.X.Offset, check_key.Position.Y.Scale, 20)
     end
 
     function CloseGUI()
@@ -316,70 +484,83 @@ local function MakeUi(applicationName, name, info, discordInvite)
         KeySystemUI.Closed = true;CloseGUI()
     end)
 
-    --loadstring(game:HttpGet("https://raw.githubusercontent.com/MaGiXxScripter0/keysystemv2api/master/setup.lua"))()
-    --local KeySystem = _G.KSS.classes.keysystem.new(applicationName)
-	local KeyLibrary = loadstring(game:HttpGet('https://raw.githubusercontent.com/MaGiXxScripter0/keysystemv2api/master/setup_obf.lua'))()
-	local KeySystem = KeyLibrary.new(applicationName)
-   	local KeyClass = KeySystem:key()
-	local CurrentKeyInput = ""
-    local SavedKeyPath = applicationName.."_key.txt"
-    function iskeyvalid(key_input)
-        if key_input ~= nil then CurrentKeyInput = key_input end
+	local KeyLibrary;
+	local KeySystem;
+   	local KeyClass;
+   	local KeyLibRun, KeyLibError = pcall(function()
+	   	--loadstring(game:HttpGet("https://raw.githubusercontent.com/MaGiXxScripter0/keysystemv2api/master/setup.lua"))()
+	    --local KeySystem = _G.KSS.classes.keysystem.new(applicationName)
+		KeyLibrary = loadstring(game:HttpGet('https://raw.githubusercontent.com/MaGiXxScripter0/keysystemv2api/master/setup_obf.lua'))()
+		KeySystem = KeyLibrary.new(applicationName)
+	   	KeyClass = KeySystem:key()
+   	end)
+   	if KeyLibError or KeyLibRun == false then
+   		Notif.New("Failed to load the Key System: ".. tostring(KeyLibError))
+   		CloseGUI()
+   	else
+	   	if KeyClass.is_banned then
+	   		Notif.New("You are banned!")
+   			CloseGUI()
+   			return
+	   	end
+	   	
+   		local CurrentKeyInput = ""
+	    local SavedKeyPath = applicationName.."_key.txt"
+	    local function iskeyvalid(key_input)
+	        if key_input ~= nil then CurrentKeyInput = key_input end
+	
+			KeyClass = KeySystem:key()
+			if KeyClass.is_banned then return false end
+			return KeySystem:verifyKey(CurrentKeyInput) --(KeyClass.finish and KeySystem:verifyKey(CurrentKeyInput))
+	    end
+		function KeySystemUI.Finished() return iskeyvalid() end
+	
+	    if readfile and writefile then
+	        local success_file, error_file = pcall(function()
+	            local is_key_present = isfile(SavedKeyPath);
+	
+	            if is_key_present == true then
+	            	Notif.New("Checking saved key...", 2)
 
-		KeyClass = KeySystem:key()
-		if KeyClass.is_banned then return false end
-		return KeySystem:verifyKey(CurrentKeyInput) --(KeyClass.finish and KeySystem:verifyKey(CurrentKeyInput))
-    end
-	function KeySystemUI.Finished() return iskeyvalid() end
-
-    if readfile and writefile then
-        text_box.Text = "Checking saved key..."
-        local success_file, error_file = pcall(function()
-            local is_key_present = isfile(SavedKeyPath);
-
-            if is_key_present == true then
-                local key_file_txt = readfile(SavedKeyPath)
-                local onl_key = iskeyvalid(key_file_txt)
-                
-                if onl_key then
-                    CloseGUI()
-                else
-                    delfile(SavedKeyPath)
-                    text_box.Text = "Saved key is invalid."
-                end
-            end
-        end)
-        if error_file then
-            text_box.Text = "Failed to check saved key."
-            warn(error_file)
-        end
-        if text_box.Text ~= "Checking saved key..." then
-            task.delay(2, function()
-                text_box.Text = ""
-            end)
-        else
-            text_box.Text = ""
-        end
-    end
-
-    check_key.MouseButton1Click:Connect(function()
-        local keyValid = iskeyvalid(text_box.Text)
-        if keyValid then
-            if writefile then writefile(SavedKeyPath, CurrentKeyInput) end
-            CloseGUI()
-        else
-			if KeyClass.is_banned then text_box.Text = "You are banned!" else text_box.Text = "Invalid/Expired key!" end
-            game:GetService("TweenService"):Create(text_box, TweenInfo.new(0.2, Enum.EasingStyle.Quad), { TextColor3 = Color3.fromRGB(255, 0, 0) }):Play()
-            task.wait(0.15)
-            game:GetService("TweenService"):Create(text_box, TweenInfo.new(0.5, Enum.EasingStyle.Quad), { TextColor3 = Color3.new(0.784314, 0.784314, 0.784314) }):Play()
-            text_box.Text = ""
-        end
-    end)
-
-    get_key.MouseButton1Click:Connect(function()
-        text_box.Text = KeySystem:getKeyURL()
-        KeySystem:copyGetKeyURL()
-    end)
+	                local key_file_txt = readfile(SavedKeyPath)
+	                local onl_key = iskeyvalid(key_file_txt)
+	                
+	                if onl_key then
+	                	Notif.New("Saved key is valid! Loading "..tostring(name).."...", 5)
+	                    CloseGUI()
+	                else
+	                    delfile(SavedKeyPath)
+	                    Notif.New("Saved key is invalid.", 2)
+	                end
+	            end
+	        end)
+	        if error_file then
+	            Notif.New("Failed to check saved key.", 5)
+	            warn(error_file)
+	        end
+	    end
+	
+	    check_key.MouseButton1Click:Connect(function()
+	        local keyValid = iskeyvalid(text_box.Text)
+	        if keyValid then
+	            if writefile then writefile(SavedKeyPath, CurrentKeyInput) end
+	            Notif.New("Key is valid! Loading "..tostring(name).."...", 5)
+	            CloseGUI()
+	        else
+				if KeyClass.is_banned then 
+					Notif.New("You are banned!", 5)
+				else 
+					Notif.New("Invalid/Expired key!", 2)
+				end
+	            text_box.Text = ""
+	        end
+	    end)
+	
+	    get_key.MouseButton1Click:Connect(function()
+	        text_box.Text = KeySystem:getKeyURL()
+	        KeySystem:copyGetKeyURL()
+	    end)
+   	end
 end
 
 function KeySystemUI.New(settings) 
