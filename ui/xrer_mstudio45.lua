@@ -111,8 +111,14 @@ local function MakeDraggable(gui)
 	    if input == dragInput and dragging then
 	        update(input)
 	    end
-end)
+	end)
 end
+
+-- Notify Lib by mr.xrer
+-- License: https://api-sirclub.onrender.com/scripts/raw/license
+local Notif = loadstring(game:HttpGet("https://api-sirclub.onrender.com/scripts/raw/notifybottom.lua"))()
+
+-- Main Function
 local function MakeUi(applicationName, name, info, discordInvite)
     if UIMade == true then return end
     UIMade = true
@@ -131,7 +137,7 @@ local function MakeUi(applicationName, name, info, discordInvite)
     canvas_group.BorderColor3 = Color3.new(0, 0, 0)
     canvas_group.BorderSizePixel = 0
     canvas_group.Position = UDim2.new(0.5, 0, 0.5, 0)
-    canvas_group.Size = UDim2.new(0, 350, 0, 255)
+    canvas_group.Size = UDim2.new(0, 350, 0, 265)
     canvas_group.Visible = true
     canvas_group.Parent = key_system
     MakeDraggable(canvas_group)
@@ -250,7 +256,7 @@ local function MakeUi(applicationName, name, info, discordInvite)
     check_key.BackgroundColor3 = Color3.new(0.109804, 0.109804, 0.109804)
     check_key.BorderColor3 = Color3.new(0, 0, 0)
     check_key.BorderSizePixel = 0
-    check_key.Position = UDim2.new(0.034285713, 0, 0.656000018, 8)
+    check_key.Position = UDim2.new(0.034285713, 0, 0.656000018, 2)
     check_key.Size = UDim2.new(0, 160, 0, 35)
     check_key.Visible = true
     check_key.Name = "CheckKey"
@@ -268,7 +274,7 @@ local function MakeUi(applicationName, name, info, discordInvite)
     get_key.BackgroundColor3 = Color3.new(0.109804, 0.109804, 0.109804)
     get_key.BorderColor3 = Color3.new(0, 0, 0)
     get_key.BorderSizePixel = 0
-    get_key.Position = UDim2.new(0.505714238, 0, 0.656000018, 8)
+    get_key.Position = UDim2.new(0.505714238, 0, 0.656000018, 2)
     get_key.Size = UDim2.new(0, 160, 0, 35)
     get_key.Visible = true
     get_key.Name = "GetKey"
@@ -301,7 +307,10 @@ local function MakeUi(applicationName, name, info, discordInvite)
             JoinDiscord(discordInvite)
         end)
     else
-        canvas_group.Size = UDim2.new(0, 350, 0, 205)
+        canvas_group.Size = UDim2.new(0, 350, 0, 185)
+        text_box.Position = UDim2.new(text_box.Position.X.Scale, text_box.Position.X.Offset, text_box.Position.Y.Scale, 10)
+        get_key.Position = UDim2.new(get_key.Position.X.Scale, get_key.Position.X.Offset, get_key.Position.Y.Scale, 20)
+        check_key.Position = UDim2.new(check_key.Position.X.Scale, check_key.Position.X.Offset, check_key.Position.Y.Scale, 20)
     end
 
     function CloseGUI()
@@ -316,70 +325,83 @@ local function MakeUi(applicationName, name, info, discordInvite)
         KeySystemUI.Closed = true;CloseGUI()
     end)
 
-    --loadstring(game:HttpGet("https://raw.githubusercontent.com/MaGiXxScripter0/keysystemv2api/master/setup.lua"))()
-    --local KeySystem = _G.KSS.classes.keysystem.new(applicationName)
-	local KeyLibrary = loadstring(game:HttpGet('https://raw.githubusercontent.com/MaGiXxScripter0/keysystemv2api/master/setup_obf.lua'))()
-	local KeySystem = KeyLibrary.new(applicationName)
-   	local KeyClass = KeySystem:key()
-	local CurrentKeyInput = ""
-    local SavedKeyPath = applicationName.."_key.txt"
-    function iskeyvalid(key_input)
-        if key_input ~= nil then CurrentKeyInput = key_input end
+	local KeyLibrary;
+	local KeySystem;
+   	local KeyClass;
+   	local KeyLibRun, KeyLibError = pcall(function()
+	   	--loadstring(game:HttpGet("https://raw.githubusercontent.com/MaGiXxScripter0/keysystemv2api/master/setup.lua"))()
+	    --local KeySystem = _G.KSS.classes.keysystem.new(applicationName)
+		KeyLibrary = loadstring(game:HttpGet('https://raw.githubusercontent.com/MaGiXxScripter0/keysystemv2api/master/setup_obf.lua'))()
+		KeySystem = KeyLibrary.new(applicationName)
+	   	KeyClass = KeySystem:key()
+   	end)
+   	if KeyLibError or KeyLibRun == false then
+   		Notif.New("Failed to load the Key System: ".. tostring(KeyLibError))
+   		CloseGUI()
+   	else
+	   	if KeyClass.is_banned then
+	   		Notif.New("You are banned!")
+   			CloseGUI()
+   			return
+	   	end
+	   	
+   		local CurrentKeyInput = ""
+	    local SavedKeyPath = applicationName.."_key.txt"
+	    local function iskeyvalid(key_input)
+	        if key_input ~= nil then CurrentKeyInput = key_input end
+	
+			KeyClass = KeySystem:key()
+			if KeyClass.is_banned then return false end
+			return KeySystem:verifyKey(CurrentKeyInput) --(KeyClass.finish and KeySystem:verifyKey(CurrentKeyInput))
+	    end
+		function KeySystemUI.Finished() return iskeyvalid() end
+	
+	    if readfile and writefile then
+	        local success_file, error_file = pcall(function()
+	            local is_key_present = isfile(SavedKeyPath);
+	
+	            if is_key_present == true then
+	            	Notif.New("Checking saved key...", 2)
 
-		KeyClass = KeySystem:key()
-		if KeyClass.is_banned then return false end
-		return KeySystem:verifyKey(CurrentKeyInput) --(KeyClass.finish and KeySystem:verifyKey(CurrentKeyInput))
-    end
-	function KeySystemUI.Finished() return iskeyvalid() end
-
-    if readfile and writefile then
-        text_box.Text = "Checking saved key..."
-        local success_file, error_file = pcall(function()
-            local is_key_present = isfile(SavedKeyPath);
-
-            if is_key_present == true then
-                local key_file_txt = readfile(SavedKeyPath)
-                local onl_key = iskeyvalid(key_file_txt)
-                
-                if onl_key then
-                    CloseGUI()
-                else
-                    delfile(SavedKeyPath)
-                    text_box.Text = "Saved key is invalid."
-                end
-            end
-        end)
-        if error_file then
-            text_box.Text = "Failed to check saved key."
-            warn(error_file)
-        end
-        if text_box.Text ~= "Checking saved key..." then
-            task.delay(2, function()
-                text_box.Text = ""
-            end)
-        else
-            text_box.Text = ""
-        end
-    end
-
-    check_key.MouseButton1Click:Connect(function()
-        local keyValid = iskeyvalid(text_box.Text)
-        if keyValid then
-            if writefile then writefile(SavedKeyPath, CurrentKeyInput) end
-            CloseGUI()
-        else
-			if KeyClass.is_banned then text_box.Text = "You are banned!" else text_box.Text = "Invalid/Expired key!" end
-            game:GetService("TweenService"):Create(text_box, TweenInfo.new(0.2, Enum.EasingStyle.Quad), { TextColor3 = Color3.fromRGB(255, 0, 0) }):Play()
-            task.wait(0.15)
-            game:GetService("TweenService"):Create(text_box, TweenInfo.new(0.5, Enum.EasingStyle.Quad), { TextColor3 = Color3.new(0.784314, 0.784314, 0.784314) }):Play()
-            text_box.Text = ""
-        end
-    end)
-
-    get_key.MouseButton1Click:Connect(function()
-        text_box.Text = KeySystem:getKeyURL()
-        KeySystem:copyGetKeyURL()
-    end)
+	                local key_file_txt = readfile(SavedKeyPath)
+	                local onl_key = iskeyvalid(key_file_txt)
+	                
+	                if onl_key then
+	                	Notif.New("Saved key is valid! Loading "..tostring(name).."...", 5)
+	                    CloseGUI()
+	                else
+	                    delfile(SavedKeyPath)
+	                    Notif.New("Saved key is invalid.", 2)
+	                end
+	            end
+	        end)
+	        if error_file then
+	            Notif.New("Failed to check saved key.", 5)
+	            warn(error_file)
+	        end
+	    end
+	
+	    check_key.MouseButton1Click:Connect(function()
+	        local keyValid = iskeyvalid(text_box.Text)
+	        if keyValid then
+	            if writefile then writefile(SavedKeyPath, CurrentKeyInput) end
+	            Notif.New("Key is valid! Loading "..tostring(name).."...", 5)
+	            CloseGUI()
+	        else
+				if KeyClass.is_banned then 
+					Notif.New("You are banned!", 5)
+				else 
+					Notif.New("Invalid/Expired key!", 2)
+				end
+	            text_box.Text = ""
+	        end
+	    end)
+	
+	    get_key.MouseButton1Click:Connect(function()
+	        text_box.Text = KeySystem:getKeyURL()
+	        KeySystem:copyGetKeyURL()
+	    end)
+   	end
 end
 
 function KeySystemUI.New(settings) 
