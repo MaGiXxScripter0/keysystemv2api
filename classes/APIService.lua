@@ -6,8 +6,9 @@ _G.KSS.OnStart.Event:Connect(function()
 end)
 
 local APIService = {} do
-    function APIService:urlKeyData(name: string): string
-		return data.api_url .. "/key/me?name=" .. name .. "&hwid=" .. utils:getHWID()
+    function APIService:urlKeyData(name: string, key: string): string
+		local key_query = key and '&key=' .. key or ''
+		return data.api_url .. "/key/me?name=" .. name .. "&hwid=" .. utils:getHWID() .. '&verify=true' .. key_query
 	end
 
     function APIService:urlPremiumKeyData(name: string, key: string): string
@@ -23,8 +24,8 @@ local APIService = {} do
         return data
 	end
 
-    function APIService:keyData(name: string)
-		return _G.KSS.JSONParse(self:urlKeyData(name)) 
+    function APIService:keyData(name: string, key: string)
+		return _G.KSS.JSONParse(self:urlKeyData(name, key)) 
 	end
 
 	function APIService:applicationData(name: string)
