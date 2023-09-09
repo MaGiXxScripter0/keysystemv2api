@@ -354,6 +354,7 @@ local function MakeUi(applicationName, name, info, discordInvite)
 			if KeyClass.is_banned then return false end
 			return KeySystem:verifyKey(CurrentKeyInput) --(KeyClass.finish and KeySystem:verifyKey(CurrentKeyInput))
 	    end
+        
 		function KeySystemUI.Finished() return iskeyvalid() end
 	
 	    if readfile and writefile then
