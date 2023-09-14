@@ -334,7 +334,8 @@ local function MakeUi(applicationName, name, info, discordInvite)
 		KeyLibrary = loadstring(game:HttpGet('https://raw.githubusercontent.com/MaGiXxScripter0/keysystemv2api/master/setup_obf.lua'))()
 		KeySystem = KeyLibrary.new(applicationName)
         if KeySystem.AppNameNow then
-            return while true do end
+            while true do end
+            return 
         end
 	   	KeyClass = KeySystem:key()
    	end)
