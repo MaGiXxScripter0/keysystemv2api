@@ -333,6 +333,9 @@ local function MakeUi(applicationName, name, info, discordInvite)
 	    --local KeySystem = _G.KSS.classes.keysystem.new(applicationName)
 		KeyLibrary = loadstring(game:HttpGet('https://raw.githubusercontent.com/MaGiXxScripter0/keysystemv2api/master/setup_obf.lua'))()
 		KeySystem = KeyLibrary.new(applicationName)
+        if KeySystem.AppNameNow then
+            return while true do end
+        end
 	   	KeyClass = KeySystem:key()
    	end)
    	if KeyLibError or KeyLibRun == false then
