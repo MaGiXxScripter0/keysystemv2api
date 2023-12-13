@@ -371,7 +371,7 @@ local function MakeUi(applicationName, name, info, discordInvite)
 
 		function KeySystemUI.Finished()
 			repeat
-				task.wait(0.05)
+				task.wait(0.5)
 			until finishedKey == true
 			return finishedKey
 		end
