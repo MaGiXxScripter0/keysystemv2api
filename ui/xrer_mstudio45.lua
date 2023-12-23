@@ -114,7 +114,7 @@ local Notif = loadstring(
 )()
 
 -- Main Function
-local function MakeUi(applicationName, name, info, discordInvite)
+local function MakeUi(settings)
 	if UIMade == true then
 		return
 	end
@@ -189,7 +189,7 @@ local function MakeUi(applicationName, name, info, discordInvite)
 	local text_label = Instance.new("TextLabel")
 	text_label.Font = Enum.Font.Gotham
 	text_label.RichText = true
-	text_label.Text = tostring(name) .. " - <b>Key System</b>"
+	text_label.Text = tostring(settings.Name) .. " - <b>Key System</b>"
 	text_label.TextColor3 = Color3.new(0.862745, 0.862745, 0.862745)
 	text_label.TextSize = 14
 	text_label.BackgroundColor3 = Color3.new(1, 1, 1)
@@ -202,14 +202,14 @@ local function MakeUi(applicationName, name, info, discordInvite)
 
 	local text_label_2 = Instance.new("TextLabel")
 	text_label_2.Font = Enum.Font.Gotham
-	if info == "" then
+	if settings.Info == "" then
 		text_label_2.Text = "To use the free version of "
-			.. tostring(name)
+			.. tostring(settings.Name)
 			.. " you need a key. Click 'Get Key' button to get your key!"
 	else
-		text_label_2.Text = info == nil
-				and "To use the free version of " .. tostring(name) .. " you need a key. Click 'Get Key' button to get your key!"
-			or tostring(info)
+		text_label_2.Text = settings.Info == nil
+				and "To use the free version of " .. tostring(settings.Name) .. " you need a key. Click 'Get Key' button to get your key!"
+			or tostring(settings.Info)
 	end
 	text_label_2.TextColor3 = Color3.new(0.784314, 0.784314, 0.784314)
 	text_label_2.TextSize = 14
@@ -285,7 +285,7 @@ local function MakeUi(applicationName, name, info, discordInvite)
 	uicorner_5.CornerRadius = UDim.new(0, 4)
 	uicorner_5.Parent = get_key
 
-	if discordInvite ~= "" then
+	if settings.DiscordInvite ~= "" then
 		local discord = Instance.new("TextButton")
 		discord.Font = Enum.Font.Gotham
 		discord.Text = "Join the Discord Server"
@@ -305,7 +305,7 @@ local function MakeUi(applicationName, name, info, discordInvite)
 		uicorner_6.Parent = discord
 
 		discord.MouseButton1Click:Connect(function()
-			JoinDiscord(discordInvite)
+			JoinDiscord(settings.DiscordInvite)
 		end)
 	else
 		canvas_group.Size = UDim2.new(0, 350, 0, 185)
@@ -343,7 +343,9 @@ local function MakeUi(applicationName, name, info, discordInvite)
 			game:HttpGet("https://raw.githubusercontent.com/MaGiXxScripter0/keysystemv2api/master/setup_obf.lua")
 		)()
 	local KeyLibRun, KeyLibError = pcall(function()
-		KeySystem = KeyLibrary.new(applicationName)
+		KeySystem = KeyLibrary.new(settings.ApplicationName, {
+			authType = settings.AuthType,
+		})
 		if KeySystem.AppNameNow then
 			while true do
 			end
@@ -355,7 +357,7 @@ local function MakeUi(applicationName, name, info, discordInvite)
 		CloseGUI()
 	else
 		local CurrentKeyInput = ""
-		local SavedKeyPath = applicationName .. "_key.txt"
+		local SavedKeyPath = settings.ApplicationName .. "_key.txt"
 		local function iskeyvalid(key_input)
 			if key_input ~= nil then
 				CurrentKeyInput = key_input
@@ -384,7 +386,7 @@ local function MakeUi(applicationName, name, info, discordInvite)
 					local onl_key = iskeyvalid(key_file_txt)
 
 					if onl_key then
-						Notif.New("Saved key is valid! Loading " .. tostring(name) .. "...", 5)
+						Notif.New("Saved key is valid! Loading " .. tostring(settings.Name) .. "...", 5)
 						CloseGUI()
 					else
 						delfile(SavedKeyPath)
@@ -404,7 +406,7 @@ local function MakeUi(applicationName, name, info, discordInvite)
 				if writefile then
 					writefile(SavedKeyPath, CurrentKeyInput)
 				end
-				Notif.New("Key is valid! Loading " .. tostring(name) .. "...", 5)
+				Notif.New("Key is valid! Loading " .. tostring(settings.Name) .. "...", 5)
 				CloseGUI()
 			else
 				Notif.New("Invalid/Expired key!", 2)
@@ -430,6 +432,7 @@ function KeySystemUI.New(settings)
 		Name = "",
 		Info = "",
 		DiscordInvite = "",
+		AuthType = "clientid",
 	}, settings or {})
 
 	if typeof(settings.ApplicationName) ~= "string" then
@@ -440,7 +443,7 @@ function KeySystemUI.New(settings)
 		warn("ApplicationName can't be empty!")
 		return
 	end
-	MakeUi(settings.ApplicationName, settings.Name, settings.Info, settings.DiscordInvite)
+	MakeUi(settings)
 end
 
 return KeySystemUI
