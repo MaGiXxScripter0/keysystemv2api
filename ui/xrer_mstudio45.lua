@@ -344,7 +344,7 @@ local function MakeUi(settings)
 		)()
 	local KeyLibRun, KeyLibError = pcall(function()
 		KeySystem = KeyLibrary.new(settings.ApplicationName, {
-			authType = settings.AuthType,
+			authType = settings.AuthType or "clientid",
 		})
 		if KeySystem.AppNameNow then
 			while true do
