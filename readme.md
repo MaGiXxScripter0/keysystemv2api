@@ -7,7 +7,7 @@
 To setup the library you will need to load those two libraries :
 ```lua
 local HashLibrary = loadstring(game.HttpGet("https://raw.githubusercontent.com/Egor-Skriptunoff/pure_lua_SHA/master/sha2.lua"))()
-local KeyLibrary = loadstring(game.HttpGet("currentpath"))()
+local KeyLibrary = loadstring(game.HttpGet("https://raw.githubusercontent.com/MaGiXxScripter0/keysystemv2api/master/version2.lua"))()
 ```
 
 Then please call the following function : 
