@@ -44,7 +44,7 @@ You can choose between those 3 functions :
 
 2. Decrypt the data
 ```lua
-local _,decrypted_data = KeyLibrary.XORDecode(o_data)
+local _, decrypted_data = KeyLibrary.XORDecode(o_data)
 ```
 KeyLibrary.XORDecode is a function who decode an encrypted string.
 
@@ -52,9 +52,9 @@ KeyLibrary.XORDecode is a function who decode an encrypted string.
 ```lua
 local newhash = HashLibrary.sha1("YourTrueData")
 if newhash == decrypted_data then
-warn("Key is a valid key !")
+    warn("Key is a valid key !")
 else
-warn("Key is non-valid !")
+    warn("Key is non-valid !")
 end
 ```
 In this case, we use HashLibrary and we hash your true data
@@ -68,11 +68,11 @@ For more details we recommend you to use the false data for more precison :
 local true = HashLibrary.sha1("YourTrueData")
 local false = HashLibrary.sha1("YourFalseData")
 if true == decrypted_data then
-warn("Key is a valid key !")
+    warn("Key is a valid key !")
 else if false == decrypted_data then
-warn("Key is non-valid !")
+    warn("Key is non-valid !")
 else
-warn("decrypt error")
+    warn("decrypt error")
 end
 ```
 
