@@ -13,11 +13,11 @@ local KeyLibrary = loadstring(game.HttpGet("https://raw.githubusercontent.com/Ma
 Then please call the following function : 
 ```lua
 KeyLibrary.Set({
-ApplicationName = "app_name",
-AuthType = "clientid",
-EncryptionKey = "any data",
-TrueData = "any data",
-FalseData = "any data",
+    ApplicationName = "app_name",
+    AuthType = "clientid",
+    EncryptionKey = "any data",
+    TrueData = "any data",
+    FalseData = "any data",
 })
 ```
 - ApplicationName : Your current application name, which can be found on your dashboard
