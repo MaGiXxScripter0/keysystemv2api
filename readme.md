@@ -65,11 +65,11 @@ If it's true, then the user key is valid, else its non valid **or** an encryptio
 
 For more details we recommend you to use the false data for more precison :
 ```lua
-local true = HashLibrary.sha1("YourTrueData")
-local false = HashLibrary.sha1("YourFalseData")
-if true == decrypted_data then
+local true_ = HashLibrary.sha1("YourTrueData")
+local false_ = HashLibrary.sha1("YourFalseData")
+if true_ == decrypted_data then
     warn("Key is a valid key !")
-else if false == decrypted_data then
+else if false_ == decrypted_data then
     warn("Key is non-valid !")
 else
     warn("decrypt error")
